@@ -109,7 +109,7 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
 
           {/* Title & Craftsmanship Snippet - Pure Language */}
           <Link href={`/products/${product.id}`} className="block group-hover:text-neutral-700 transition-colors">
-            <h3 className="text-sm sm:text-base font-bold text-neutral-900 leading-snug line-clamp-1">
+            <h3 className="text-[13px] sm:text-base font-bold text-neutral-900 leading-tight sm:leading-snug line-clamp-1">
               {language === 'hi' && product.hindiName ? product.hindiName : product.name}
             </h3>
             <p className="text-xs text-neutral-500 mt-0.5 line-clamp-1">
@@ -118,8 +118,8 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
           </Link>
 
           {/* Pricing & Savings */}
-          <div className="flex items-baseline flex-wrap gap-2 mt-2">
-            <span className="text-lg sm:text-xl font-black text-[#D32F2F]">
+          <div className="flex items-baseline flex-wrap gap-1.5 sm:gap-2 mt-2">
+            <span className="text-base sm:text-xl font-black text-[#D32F2F]">
               ₹{product.price.toLocaleString('en-IN')}
             </span>
             {product.originalPrice > product.price && (
@@ -164,22 +164,22 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
       </div>
 
       {/* Action Buttons: Quantity Stepper + Add to Cart + WhatsApp */}
-      <div className="pt-3 mt-3 border-t border-neutral-100 flex items-center gap-1.5 sm:gap-2">
+      <div className="pt-3 mt-3 border-t border-neutral-100 flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-2">
         {/* Quantity Stepper for Multi-Add */}
-        <div className="flex items-center bg-neutral-100 rounded-xl p-0.5 border border-neutral-200 shrink-0">
+        <div className="flex items-center justify-between sm:justify-start bg-neutral-100 rounded-xl p-0.5 border border-neutral-200 shrink-0">
           <button
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
               setQuantity((q) => Math.max(1, q - 1));
             }}
-            className="w-6 h-8 flex items-center justify-center text-neutral-600 hover:text-black rounded-lg hover:bg-white transition-all cursor-pointer"
+            className="w-8 h-8 sm:w-6 flex items-center justify-center text-neutral-600 hover:text-black rounded-lg hover:bg-white transition-all cursor-pointer"
             aria-label="Decrease quantity"
             title={t('card.decrease')}
           >
             <Minus className="w-3 h-3" />
           </button>
-          <span className="w-5 text-center text-xs font-black text-black select-none">
+          <span className="w-6 sm:w-5 text-center text-xs font-black text-black select-none">
             {quantity}
           </span>
           <button
@@ -199,7 +199,7 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
         {/* Add to Cart Button */}
         <button
           onClick={handleAdd}
-          className={`flex-1 h-10 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-all duration-200 cursor-pointer shadow-xs ${
+          className={`flex-1 h-9 sm:h-10 rounded-xl font-bold text-[11px] sm:text-xs flex items-center justify-center gap-1.5 transition-all duration-200 cursor-pointer shadow-xs ${
             isAdded
               ? 'bg-neutral-900 text-[#87D215] border border-neutral-800'
               : 'bg-[#87D215] hover:bg-[#79BE10] text-black font-extrabold active:scale-[0.98] shadow-sm hover:shadow-[0_4px_16px_rgba(135,210,21,0.35)]'
@@ -207,12 +207,12 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
         >
           {isAdded ? (
             <>
-              <Check className="w-4 h-4 stroke-[2.5]" />
+              <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5]" />
               <span>{t('card.added')}</span>
             </>
           ) : (
             <>
-              <ShoppingBag className="w-4 h-4 stroke-[2.2]" />
+              <ShoppingBag className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.2]" />
               <span>{t('card.addToCart')}</span>
             </>
           )}
