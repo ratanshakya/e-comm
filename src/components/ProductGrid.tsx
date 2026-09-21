@@ -288,15 +288,15 @@ export default function ProductGrid({ products, searchQuery = '', settings }: Pr
       case 1:
         return 'grid grid-cols-1 gap-6 max-w-3xl mx-auto';
       case 2:
-        return 'grid grid-cols-1 sm:grid-cols-2 gap-6';
+        return 'grid grid-cols-2 sm:grid-cols-2 gap-4 sm:gap-6';
       case 3:
-        return 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6';
+        return 'grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6';
       case 4:
-        return 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5';
+        return 'grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5';
       case 5:
-        return 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4';
+        return 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4';
       default:
-        return 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5';
+        return 'grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5';
     }
   };
 

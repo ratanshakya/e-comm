@@ -45,7 +45,8 @@ import {
   CreditCard,
   Monitor,
   LayoutTemplate,
-  FileText
+  FileText,
+  Menu
 } from 'lucide-react';
 import { Product, Order } from '@/types';
 import { CATEGORIES } from '@/data/products';
@@ -63,11 +64,17 @@ export default function AdminPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [authError, setAuthError] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Active Tab
   const [activeTab, setActiveTab] = useState<
     'dashboard' | 'products' | 'categories' | 'orders' | 'inquiries' | 'users' | 'coupons' | 'shipping' | 'header' | 'footer' | 'settings' | 'sale' | 'pages' | 'homepage' | 'reels' | 'payments'
   >('dashboard');
+
+  const handleTabClick = (tabName: typeof activeTab) => {
+    setActiveTab(tabName);
+    setIsMobileMenuOpen(false);
+  };
 
   // Data states
   const [products, setProducts] = useState<Product[]>([]);
@@ -666,8 +673,40 @@ export default function AdminPage() {
         </div>
       )}
 
+      {/* MOBILE TOP BAR (Visible only on small screens) */}
+      <div className="md:hidden flex items-center justify-between bg-white border-b border-neutral-200 p-4 sticky top-0 z-40">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-black flex items-center justify-center text-[#87D215] font-black text-xs overflow-hidden shrink-0">
+            {settings.logoUrl ? (
+              <img src={settings.logoUrl} alt="logo" className="w-full h-full object-contain" />
+            ) : (
+              <span>{(settings.storeName || 'B').charAt(0).toUpperCase()}</span>
+            )}
+          </div>
+          <h1 className="font-black text-sm tracking-tight text-black">
+            {settings.storeName || 'BroCART'} Admin
+          </h1>
+        </div>
+        <button
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="p-2 rounded-lg bg-neutral-100 hover:bg-neutral-200 text-black transition-colors"
+        >
+          {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </button>
+      </div>
+
+      {/* OVERLAY (Mobile) */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
       {/* SIDEBAR NAVIGATION */}
-      <aside className="w-full md:w-64 bg-white border-r border-neutral-200 p-5 flex flex-col justify-between shrink-0 shadow-xs md:sticky md:top-0 md:h-screen overflow-y-auto">
+      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-neutral-200 p-5 flex flex-col justify-between shrink-0 shadow-2xl md:shadow-xs transition-transform duration-300 md:relative md:sticky md:top-0 md:h-screen md:translate-x-0 overflow-y-auto ${
+        isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+      }`}>
         <div>
           {/* Logo */}
           <div className="flex items-center gap-3 mb-8 px-2">
@@ -691,7 +730,7 @@ export default function AdminPage() {
           {/* Nav Items */}
           <nav className="space-y-1 text-xs font-bold">
             <button
-              onClick={() => setActiveTab('dashboard')}
+              onClick={() => handleTabClick('dashboard')}
               className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all cursor-pointer ${
                 activeTab === 'dashboard'
                   ? 'bg-black text-white font-black shadow-xs'
@@ -703,7 +742,7 @@ export default function AdminPage() {
             </button>
 
             <button
-              onClick={() => setActiveTab('products')}
+              onClick={() => handleTabClick('products')}
               className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl transition-all cursor-pointer ${
                 activeTab === 'products'
                   ? 'bg-black text-white font-black shadow-xs'
@@ -726,7 +765,7 @@ export default function AdminPage() {
             </button>
 
             <button
-              onClick={() => setActiveTab('categories')}
+              onClick={() => handleTabClick('categories')}
               className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl transition-all cursor-pointer ${
                 activeTab === 'categories'
                   ? 'bg-black text-white font-black shadow-xs'
@@ -749,7 +788,7 @@ export default function AdminPage() {
             </button>
 
             <button
-              onClick={() => setActiveTab('orders')}
+              onClick={() => handleTabClick('orders')}
               className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl transition-all cursor-pointer ${
                 activeTab === 'orders'
                   ? 'bg-black text-white font-black shadow-xs'
@@ -768,7 +807,7 @@ export default function AdminPage() {
             </button>
 
             <button
-              onClick={() => setActiveTab('inquiries')}
+              onClick={() => handleTabClick('inquiries')}
               className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl transition-all cursor-pointer ${
                 activeTab === 'inquiries'
                   ? 'bg-black text-white font-black shadow-xs'
@@ -787,7 +826,7 @@ export default function AdminPage() {
             </button>
 
             <button
-              onClick={() => setActiveTab('users')}
+              onClick={() => handleTabClick('users')}
               className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl transition-all cursor-pointer ${
                 activeTab === 'users'
                   ? 'bg-black text-white font-black shadow-xs'
@@ -804,7 +843,7 @@ export default function AdminPage() {
             </button>
 
             <button
-              onClick={() => setActiveTab('coupons')}
+              onClick={() => handleTabClick('coupons')}
               className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all cursor-pointer ${
                 activeTab === 'coupons'
                   ? 'bg-black text-white font-black shadow-xs'
@@ -816,7 +855,7 @@ export default function AdminPage() {
             </button>
 
             <button
-              onClick={() => setActiveTab('shipping')}
+              onClick={() => handleTabClick('shipping')}
               className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all cursor-pointer ${
                 activeTab === 'shipping'
                   ? 'bg-black text-white font-black shadow-xs'
@@ -828,7 +867,7 @@ export default function AdminPage() {
             </button>
 
             <button
-              onClick={() => setActiveTab('header')}
+              onClick={() => handleTabClick('header')}
               className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all cursor-pointer ${
                 activeTab === 'header'
                   ? 'bg-black text-white font-black shadow-xs'
@@ -840,7 +879,7 @@ export default function AdminPage() {
             </button>
 
             <button
-              onClick={() => setActiveTab('footer')}
+              onClick={() => handleTabClick('footer')}
               className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all cursor-pointer ${
                 activeTab === 'footer'
                   ? 'bg-black text-white font-black shadow-xs'
@@ -854,7 +893,7 @@ export default function AdminPage() {
 
 
             <button
-              onClick={() => setActiveTab('settings')}
+              onClick={() => handleTabClick('settings')}
               className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all cursor-pointer ${
                 activeTab === 'settings'
                   ? 'bg-black text-white font-black shadow-xs'
@@ -866,7 +905,7 @@ export default function AdminPage() {
             </button>
 
             <button
-              onClick={() => setActiveTab('payments')}
+              onClick={() => handleTabClick('payments')}
               className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all cursor-pointer ${
                 activeTab === 'payments'
                   ? 'bg-[#87D215] text-black font-black shadow-xs'
@@ -878,7 +917,7 @@ export default function AdminPage() {
             </button>
 
             <button
-              onClick={() => setActiveTab('pages')}
+              onClick={() => handleTabClick('pages')}
               className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all cursor-pointer ${
                 activeTab === 'pages'
                   ? 'bg-black text-white font-black shadow-xs'
@@ -890,7 +929,7 @@ export default function AdminPage() {
             </button>
 
             <button
-              onClick={() => setActiveTab('homepage')}
+              onClick={() => handleTabClick('homepage')}
               className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all cursor-pointer ${
                 activeTab === 'homepage'
                   ? 'bg-black text-white font-black shadow-xs'
@@ -902,7 +941,7 @@ export default function AdminPage() {
             </button>
 
             <button
-              onClick={() => setActiveTab('reels')}
+              onClick={() => handleTabClick('reels')}
               className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all cursor-pointer ${
                 activeTab === 'reels'
                   ? 'bg-black text-white font-black shadow-xs'
@@ -915,7 +954,7 @@ export default function AdminPage() {
 
 
             <button
-              onClick={() => setActiveTab('sale')}
+              onClick={() => handleTabClick('sale')}
               className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl transition-all cursor-pointer ${
                 activeTab === 'sale'
                   ? 'bg-rose-500 text-white font-black shadow-xs'
